@@ -2,19 +2,23 @@
 # tasks file for firewall
 
 - name: Open some firewall ports
-  ufw:
-    rule: "allow"
+  sudo: yes
+  firewalld:
     port: "{{ item.port }}"
-    proto: "{{ item.proto | default('tcp') }}"
-    state: reloaded
-  with_items: firewall_allow
-  when: firewall_allow is defined
+    permanent: yes
+    state: enabled
+    immediate: yes
+    zone: public
+  with_items: firewalld_allow
+  when: firewalld_allow is defined
 
 - name: Close some firewall ports
-  ufw:
-    rule: "deny"
+  sudo: yes
+  firewalld:
     port: "{{ item.port }}"
-    proto: "{{ item.proto | default('tcp') }}"
-    state: reloaded
-  with_items: firewall_deny
-  when: firewall_deny is defined
+    permanent: yes
+    state: enabled
+    immediate: yes
+    zone: public
+  with_items: firewalld_deny
+  when: firewalld_deny is defined

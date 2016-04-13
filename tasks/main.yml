@@ -9,8 +9,9 @@
     state: enabled
     immediate: yes
     zone: public
-  with_items: firewalld_allow
+  with_items: "{{ firewalld_allow }}"
   when: firewalld_allow is defined
+  tags: firewall
 
 - name: Close some firewall ports
   sudo: yes
@@ -20,5 +21,6 @@
     state: enabled
     immediate: yes
     zone: public
-  with_items: firewalld_deny
+  with_items: "{{ firewalld_deny }}"
   when: firewalld_deny is defined
+  tags: firewall
